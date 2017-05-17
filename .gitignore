@@ -6,3 +6,4 @@
 *.SDB
 *.SYM
 *.txt
+.DS_store
