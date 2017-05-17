@@ -1,1 +1,8 @@
 *.exe
+*.ci
+*.ECI
+*.ini
+*.DFR
+*.SDB
+*.SYM
+*.txt
