@@ -7,3 +7,4 @@
 *.SYM
 *.txt
 .DS_Store
+*.csv
