@@ -45,15 +45,15 @@ if regs:
     # print(len(regs))
     # print(rewrite_modbus_read(regs))
     results=list(rewrite_modbus_read(regs).values())
-    print(len(results))
+    # print(len(results))
     results[count+1:]=list(rewrite_modbus_read(regs2).values())
-    print(len(results))
+    # print(len(results))
     results[(2*count+1):] = list(rewrite_modbus_read(regs3).values())
-    print(len(results))
+    # print(len(results))
     results[(3*count+1):] = list(rewrite_modbus_read(regs4).values())
-    print(len(results))
+    # print(len(results))
     results[(4*count+1):] = list(rewrite_modbus_read(regs5).values())
-    print(len(results))
+    # print(len(results))
 
     import csv   
 
