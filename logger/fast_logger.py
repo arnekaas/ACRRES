@@ -4,7 +4,7 @@ from pyModbusTCP import utils
 host = "192.168.1.1"
 port = 502
 unitid = 0
-start = 12288
+start = 12488
 count = 100
 
 from pyModbusTCP import utils
@@ -34,25 +34,24 @@ c = ModbusClient(host,port,unitid)
 c.open()
 # c.debug(True)
 i = 0
-while true:
+while 1 > 0:
 	regs = c.read_holding_registers(start, count)
 	if regs:
     		# print(regs)
     		# print(len(regs))
    		 # print(rewrite_modbus_read(regs))
-        results=list(rewrite_modbus_read(regs).values())
-        with open(r'log.csv', 'a') as f:
-		    writer = csv.writer(f)
-		    writer.writerow(results)
+		results=list(rewrite_modbus_read(regs).values())
+        	with open(r'fastlog.csv', 'a') as f:
+			writer = csv.writer(f)
+			writer.writerow(results)
 
 	else:
 	    print("read error")
-    
-    i=i+1
-    if i > 10:
-	    break;
 
-	
+	i=i+1
+    	if i > 100:
+		break;
+
 c.close()
 
 

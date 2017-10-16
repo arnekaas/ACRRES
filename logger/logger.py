@@ -5,7 +5,7 @@ host = "192.168.1.1"
 port = 502
 unitid = 0
 start = 12288
-count = 100
+count = 120
 
 from pyModbusTCP import utils
 
@@ -35,11 +35,16 @@ c.open()
 # c.debug(True)
 
 regs = c.read_holding_registers(start, count)
+regs2 = c.read_holding_registers((start+count),count)
+#print(regs2)
+regs3 = c.read_holding_registers((start+2*count),count)
 if regs:
     # print(regs)
     # print(len(regs))
     # print(rewrite_modbus_read(regs))
     results=list(rewrite_modbus_read(regs).values())
+    results[count+1:]=list(rewrite_modbus_read(regs2).values())
+    results[(2*count+1):] = list(rewrite_modbus_read(regs3).values())
 
     import csv   
 
