@@ -43,10 +43,10 @@ if regs:
     # print(len(regs))
     # print(rewrite_modbus_read(regs))
     results=list(rewrite_modbus_read(regs).values())
+    #print(results)
     results[count+1:]=list(rewrite_modbus_read(regs2).values())
     results[(2*count+1):] = list(rewrite_modbus_read(regs3).values())
-
-    import csv   
+    #print(results)
 
     with open(r'log.csv', 'a') as f:
         writer = csv.writer(f)
