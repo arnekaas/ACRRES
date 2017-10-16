@@ -43,8 +43,8 @@ while true:
     		results=list(rewrite_modbus_read(regs).values()) 
 
 	    with open(r'log.csv', 'a') as f:
-		writer = csv.writer(f)
-		writer.writerow(results)
+		    writer = csv.writer(f)
+		    writer.writerow(results)
             
 	    i=i+1
             if i > 10:
