@@ -40,19 +40,19 @@ while true:
     		# print(regs)
     		# print(len(regs))
    		 # print(rewrite_modbus_read(regs))
-    		results=list(rewrite_modbus_read(regs).values()) 
-
-	    with open(r'log.csv', 'a') as f:
+        results=list(rewrite_modbus_read(regs).values())
+        with open(r'log.csv', 'a') as f:
 		    writer = csv.writer(f)
 		    writer.writerow(results)
-            
-	    i=i+1
-            if i > 10:
-		break;
 
 	else:
 	    print("read error")
     
+    i=i+1
+    if i > 10:
+	    break;
+
+	
 c.close()
 
 
