@@ -1,11 +1,21 @@
 from pyModbusTCP.client import ModbusClient
 from pyModbusTCP import utils
+import time
 
 host = "192.168.1.1"
 port = 502
 unitid = 0
 start = 12488
-count = 100
+count = 112
+
+mstime = float(raw_input("Please logging frequency in ms: "))/1000
+print( "logging frequency in seconds", mstime)
+
+points = float(raw_input("Please logging time in minutes: "))*60/mstime
+print ("logging activate for", points)
+
+filename = raw_input("Please enter a filename: ")
+print ("logging to ~/fastlog_", filename,".csv")
 
 from pyModbusTCP import utils
 
@@ -34,23 +44,49 @@ c = ModbusClient(host,port,unitid)
 c.open()
 # c.debug(True)
 i = 0
+t0 = time.time()
+
+
+
 while 1 > 0:
-	regs = c.read_holding_registers(start, count)
-	if regs:
+    regs = c.read_holding_registers(start, count)
+    regs2 = c.read_holding_registers((start+count),count)   
+    #print(regs2)
+    regs3 = c.read_holding_registers((start+2*count),count)
+    regs4 = c.read_holding_registers((start+3*count),count)
+    regs5 = c.read_holding_registers((start+4*count),count)
+    
+    if regs:
     		# print(regs)
     		# print(len(regs))
-   		 # print(rewrite_modbus_read(regs))
-		results=list(rewrite_modbus_read(regs).values())
-        	with open(r'fastlog.csv', 'a') as f:
+   		# print(rewrite_modbus_read(regs))
+	results=list(rewrite_modbus_read(regs).values())
+        results[count+1:]=list(rewrite_modbus_read(regs2).values())
+        results[(2*count+1):] = list(rewrite_modbus_read(regs3).values())
+        results[(3*count+1):] = list(rewrite_modbus_read(regs4).values())
+        results[(4*count+1):] = list(rewrite_modbus_read(regs5).values())
+	
+	#save current time to results
+	t1 = time.time()
+	results[0] = t1 
+        with open(r'fastlog_'+filename+'.csv', 'a') as f:
 			writer = csv.writer(f)
 			writer.writerow(results)
 
-	else:
-	    print("read error")
+    else:
+        print("read error")
 
-	i=i+1
-    	if i > 100:
-		break;
+    #wait 200ms untill starting next loop
+    t1 = time.time()
+    t0 = t0 + mstime; #increase the time with 200ms
+    #print(t0,t1)
+    while t1 < t0:
+        t1 = time.time()
+    
+    #limit points to log
+    i=i+1
+    if i > points:
+        break;
 
 c.close()
 
