@@ -1,0 +1,13 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM SOC_real_to_Voltage_Out
+VAR
+	TheBattery_SOC_real: REAL;
+	EV_control_signal: REAL;
+END_VAR
+(* @END_DECLARATION := '0' *)
+EV_control_signal := TheBattery_SOC_real/10;
+END_PROGRAM
