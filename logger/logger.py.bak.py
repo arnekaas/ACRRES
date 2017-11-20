@@ -1,22 +1,11 @@
 from pyModbusTCP.client import ModbusClient
 from pyModbusTCP import utils
-import time
 
 host = "192.168.1.1"
 port = 502
 unitid = 0
-start = 12488
+start = 12288
 count = 112
-
-timems = raw_input("Please logging frequency in ms: ")/1000
-print( "logging frequency in seconds", timems)
-
-points = raw_input("Please logging time in minutes: ")*60/time
-print ("logging activate for", points)
-
-filename = raw_input("Please enter a filename: ")
-print ("logging to ~/", filename,".csv")
-
 
 from pyModbusTCP import utils
 
@@ -44,45 +33,36 @@ import csv
 c = ModbusClient(host,port,unitid)
 c.open()
 # c.debug(True)
-i = 0
-t0 = time.time()
 
+regs = c.read_holding_registers(start, count)
+regs2 = c.read_holding_registers((start+count),count)       #print(regs2)
+regs3 = c.read_holding_registers((start+2*count),count)
+regs4 = c.read_holding_registers((start+3*count),count)
+regs5 = c.read_holding_registers((start+4*count),count)
 
+if regs:
+    # print(regs)
+    # print(len(regs))
+    # print(rewrite_modbus_read(regs))
+    results=list(rewrite_modbus_read(regs).values())
+    # print(len(results))
+    results[count+1:]=list(rewrite_modbus_read(regs2).values())
+    # print(len(results))
+    results[(2*count+1):] = list(rewrite_modbus_read(regs3).values())
+    # print(len(results))
+    results[(3*count+1):] = list(rewrite_modbus_read(regs4).values())
+    # print(len(results))
+    results[(4*count+1):] = list(rewrite_modbus_read(regs5).values())
+    # print(len(results))
 
-while 1 > 0:
-	regs = c.read_holding_registers(start, count)
-    regs2 = c.read_holding_registers((start+count),count)       #print(regs2)
-    regs3 = c.read_holding_registers((start+2*count),count)
-    regs4 = c.read_holding_registers((start+3*count),count)
-    regs5 = c.read_holding_registers((start+4*count),count)
+    import csv   
+
+    with open(r'log.csv', 'a') as f:
+        writer = csv.writer(f)
+        writer.writerow(results)
+else:
+    print("read error")
     
-    if regs:
-    		# print(regs)
-    		# print(len(regs))
-   		 # print(rewrite_modbus_read(regs))
-		results=list(rewrite_modbus_read(regs).values())
-        results[count+1:]=list(rewrite_modbus_read(regs2).values())
-        results[(2*count+1):] = list(rewrite_modbus_read(regs3).values())
-        results[(3*count+1):] = list(rewrite_modbus_read(regs4).values())
-        results[(4*count+1):] = list(rewrite_modbus_read(regs5).values())
-
-        with open(r'fastlog.csv', 'a') as f:
-			writer = csv.writer(f)
-			writer.writerow(results)
-
-	else:
-	    print("read error")
-
-    #wait 200ms untill starting next loop
-    t1 = time.time()
-    t0 = t0 + 0.2; #increase the time with 200ms
-    while t1 > t0:
-        t1 = time.time()
-    
-	i=i+1
-    	if i > 100:
-		break;
-
 c.close()
 
 
