@@ -56,16 +56,16 @@ regs4 = c.read_holding_registers((start+3*count),count)
 regs5 = c.read_holding_registers((start+4*count),count)
 
 if regs:
-	# print(regs)
-	# print(len(regs))
+    # print(regs)
+    # print(len(regs))
     # print(rewrite_modbus_read(regs))
-	results=list(rewrite_modbus_read(regs).values())
+    results=list(rewrite_modbus_read(regs).values())
     results[count+1:]=list(rewrite_modbus_read(regs2).values())
     results[(2*count+1):] = list(rewrite_modbus_read(regs3).values())
     results[(3*count+1):] = list(rewrite_modbus_read(regs4).values())
     results[(4*count+1):] = list(rewrite_modbus_read(regs5).values())
 
-	results[0] = t0
+    results[0] = t0
 
     with open(r'log.csv', 'a') as f:
 		writer = csv.writer(f)
