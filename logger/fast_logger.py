@@ -24,12 +24,16 @@ def rewrite_modbus_read(list):
     new_list = dict()
     for i in range(1,len(list)):
         if i%2:
-            new_list[(i+1)/2] =  hex(list[i]) + hex(list[i-1])[2:]
+            hex_str = hex(list[i-1])[2:]
+            while(len(hex_str)<4):
+                hex_str = "0"+hex_str
+            new_list[(i+1)/2] =  hex(list[i]) + hex_str
+            #print((var+i+1)/2,'hex:',hex(list[i]) ,hex_str,utils.decode_ieee(int(new_list[(i+1)/2], 16)))
         # else:
             # new_list[i-1] =  hex(list[i+1]) + hex(list[i])[2:]
         # print(i)
     
-            # print(utils.decode_ieee(int(new_list[i+1], 16)))
+            #print(utils.decode_ieee(int(new_list[(i+1)/2], 16)))
             new_list[(i+1)/2] = utils.decode_ieee(int(new_list[(i+1)/2], 16))
     return new_list
 
@@ -51,32 +55,33 @@ t0 = time.time()
 
 while 1 > 0:
     regs = c.read_holding_registers(start, count)
-    regs2 = c.read_holding_registers((start+count),count)   
-    #print(regs2)
+    regs2 = c.read_holding_registers((start+count),count)       #print(regs2)
     regs3 = c.read_holding_registers((start+2*count),count)
     regs4 = c.read_holding_registers((start+3*count),count)
     regs5 = c.read_holding_registers((start+4*count),count)
+    regs6 = c.read_holding_registers((start+5*count),count)
+    regs7 = c.read_holding_registers((start+6*count),count)
     
     if regs:
-    		# print(regs)
-    		# print(len(regs))
-   		# print(rewrite_modbus_read(regs))
-	results=list(rewrite_modbus_read(regs).values())
-        results[count+1:]=list(rewrite_modbus_read(regs2).values())
-        results[(2*count+1):] = list(rewrite_modbus_read(regs3).values())
-        results[(3*count+1):] = list(rewrite_modbus_read(regs4).values())
-        results[(4*count+1):] = list(rewrite_modbus_read(regs5).values())
-	
-	#save current time to results
-	t1 = time.time()
-	results[0] = t1 
-        with open(r'fastlog_'+filename+'.csv', 'a') as f:
-			writer = csv.writer(f)
-			writer.writerow(results)
-
+    	# print(regs)
+    	# print(len(regs))
+        # print(rewrite_modbus_read(regs))
+        results=list(rewrite_modbus_read(regs,0).values())
+        results[count+1:]=list(rewrite_modbus_read(regs2,1*count).values())
+        results[(2*count+1):] = list(rewrite_modbus_read(regs3,2*count).values())
+        results[(3*count+1):] = list(rewrite_modbus_read(regs4,3*count).values())
+        results[(4*count+1):] = list(rewrite_modbus_read(regs5,4*count).values())
+        results[(5*count+1):] = list(rewrite_modbus_read(regs6,5*count).values())
+        results[(6*count+1):] = list(rewrite_modbus_read(regs7,6*count).values())
+    
+        results[0] = t0
+    
+        with open(r'../Data/log.csv', 'a') as f:
+            writer = csv.writer(f)
+            writer.writerow(results)
+    
     else:
         print("read error")
-
     #wait 200ms untill starting next loop
     t1 = time.time()
     t0 = t0 + mstime; #increase the time with 200ms
