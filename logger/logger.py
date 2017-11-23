@@ -27,7 +27,7 @@ def rewrite_modbus_read(list,var):
             while(len(hex_str)<4):
                 hex_str = "0"+hex_str
             new_list[(i+1)/2] =  hex(list[i]) + hex_str
-            print((var+i+1)/2,'hex:',hex(list[i]) ,hex_str,utils.decode_ieee(int(new_list[(i+1)/2], 16)))
+            #print((var+i+1)/2,'hex:',hex(list[i]) ,hex_str,utils.decode_ieee(int(new_list[(i+1)/2], 16)))
         # else:
             # new_list[i-1] =  hex(list[i+1]) + hex(list[i])[2:]
         # print(i)
@@ -76,7 +76,7 @@ if regs:
 
     results[0] = t0
 
-    with open(r'log.csv', 'a') as f:
+    with open(r'../Data/log.csv', 'a') as f:
         writer = csv.writer(f)
         writer.writerow(results)
 
