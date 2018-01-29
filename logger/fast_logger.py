@@ -20,7 +20,7 @@ print ("logging to ~/fastlog_", filename,".csv")
 
 from pyModbusTCP import utils
 
-def rewrite_modbus_read(list):
+def rewrite_modbus_read(list,var):
     new_list = dict()
     for i in range(1,len(list)):
         if i%2:
@@ -76,7 +76,7 @@ while 1 > 0:
     
         results[0] = t0
     
-        with open(r'../Data/log.csv', 'a') as f:
+        with open(r'../Data/fastlog'+filename+'.csv', 'a') as f:
             writer = csv.writer(f)
             writer.writerow(results)
     
