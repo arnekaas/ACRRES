@@ -76,12 +76,7 @@ while 1 > 0:
         results[(6*count+1):] = list(rewrite_modbus_read(regs7,6*count).values())
     
         results[0] = t0
-    
-<<<<<<< HEAD
-        with open(r'../Data/fastlog'+filename+'.csv', 'a') as f:
-=======
         with open(r'../Data/fastlog_'+filename+'.csv', 'a') as f:
->>>>>>> 10e5c937a2ff18d3b4a861a30b2144d3c3fc064b
             writer = csv.writer(f)
             writer.writerow(results)
     
