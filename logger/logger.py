@@ -76,7 +76,7 @@ if regs:
 
     results[0] = t0
 
-    with open(r'../Data/log.csv', 'a') as f:
+    with open(r'log.csv', 'a') as f:
         writer = csv.writer(f)
         writer.writerow(results)
 
