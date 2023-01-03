@@ -1,7 +1,7 @@
 # PROJECT MOVED TO github.com/acrres
 Please use/review the code in the new location!
 
-# PLC: control and meseaurements of the site
+# PLC: control and measurements of the site
 The folder contains the code running in the WAGO ACRRES PLC running in the container. The PLC can control which group(s) are connected to the off-grid testbus and will control devices on the testsite with 0-20mA and 0-10V control signals.
 
 # logger: Python based csv logger with adjustable logging freuqency
