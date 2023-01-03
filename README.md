@@ -6,7 +6,6 @@ The folder contains the code running in the WAGO ACRRES PLC running in the conta
 
 # logger: Python based csv logger with adjustable logging freuqency
 The folder logger contains a logger that will read the global modbus status register.
-The data is saved to a local csv file whihch can be copied via realVNC (account beheer.acrres@allianders.nl)
 The logger is automatically activated by a cronjob every minute. Run 'crontab -e' to change this.
 '''@reboot sh /home/pi/Acrres_/logger/start_logger.sh >/logs/PLClogger &2>1'''
 
